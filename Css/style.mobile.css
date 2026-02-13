@@ -1,16 +1,35 @@
-/*© Zero - Código libre no comercial*/
+/* Variables globales */
+:root {
+  --primary-red: #e60026;
+  --shadow-light: #e6002611;
+  --font-mono: 'Courier New', Courier, monospace;
+  --transition-smooth: 1.2s cubic-bezier(.77,0,.18,1);
+}
+
+/* Reset y base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-size: 16px;
+  overflow-x: hidden; /* Evita scroll horizontal */
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
 }
 
+/* Contenedor principal del árbol */
 .tree-container {
-  width: 92vw !important;
-  height: 62vw !important;
-  max-width: 98vw;
-  max-height: 80vw;
-  min-width: 180px;
-  min-height: 180px;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 95vw;
+  max-height: 80vh;
+  min-width: 280px;
+  min-height: 280px;
+  aspect-ratio: 1.48 / 1; /* Mantiene proporción 92:62 */
   position: absolute;
   top: 48%;
   left: 50%;
@@ -25,76 +44,73 @@ body {
 }
 
 .tree-container svg.move-and-scale {
-  transition: transform 1.2s cubic-bezier(.77,0,.18,1);
-  /* Mueve hacia abajo en caso de los celualares */
+  transition: transform var(--transition-smooth);
   transform: translateY(60px) scale(1.18);
 }
 
+/* Texto de dedicatoria */
 .dedication-text {
   position: absolute;
-  top: 7vw;
+  top: 5vw;
   left: 50%;
   transform: translateX(-50%);
+  width: 90%;
   max-width: 92vw;
-  font-size: 1.05rem;
+  font-size: clamp(0.9rem, 4vw, 1.05rem);
   text-align: center;
   color: #000000;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono);
   white-space: pre-line;
+  word-wrap: break-word;
+  padding: 0 15px;
   z-index: 3;
   opacity: 0;
   pointer-events: none;
+  line-height: 1.5;
 }
 
+/* Firma */
 .signature {
   position: static;
   display: block;
   margin: 2.2em auto 0 auto;
-  left: auto;
-  bottom: auto;
-  transform: none;
-  font-size: 1.25rem;
-  color: #e60026;
+  font-size: clamp(1.1rem, 5vw, 1.25rem);
+  color: var(--primary-red);
   opacity: 0;
   z-index: 5;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
   pointer-events: none;
   transition: opacity 0.7s;
   text-align: center;
+  padding: 0 10px;
 }
 
-@media (max-width: 700px) {
-  .signature {
-    position: static;
-    display: block;
-    margin: 2.2em auto 0 auto;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    font-size: 1.25rem;
-    text-align: center;
-  }
-}
-
+/* Countdown */
 .countdown {
   position: fixed;
   left: 50%;
-  bottom: 10vw;
+  bottom: 5vw;
   transform: translateX(-50%);
-  font-size: 0.98rem;
+  font-size: clamp(0.9rem, 4vw, 0.98rem);
   min-width: 60vw;
   max-width: 92vw;
+  width: auto;
   text-align: center;
-  padding: 0.5em 0.7em;
-  border-radius: 1em;
+  padding: 0.7em 1em;
+  border-radius: 2em;
   background: #fff8;
-  box-shadow: 0 2px 8px #e6002611;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px var(--shadow-light);
   z-index: 6;
   pointer-events: none;
   letter-spacing: 0.05em;
-  transition: opacity 0.8s cubic-bezier(.77,0,.18,1), transform 0.8s cubic-bezier(.77,0,.18,1);
+  transition: opacity 0.8s var(--transition-smooth), 
+              transform 0.8s var(--transition-smooth);
   opacity: 0;
   transform: translateX(-50%) translateY(30px);
+  border: 1px solid rgba(230, 0, 38, 0.1);
 }
 
 .countdown.visible {
@@ -102,9 +118,142 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Ajusta los pétalos flotantes */
+/* Pétalos flotantes */
 .floating-petal {
   width: 13px;
   height: 18px;
+  pointer-events: none;
 }
 
+/* Media Queries */
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .tree-container {
+    min-width: 240px;
+    min-height: 240px;
+    top: 45%;
+  }
+  
+  .dedication-text {
+    top: 3vw;
+    font-size: 0.9rem;
+    padding: 0 10px;
+    line-height: 1.4;
+  }
+  
+  .signature {
+    font-size: 1.1rem;
+    margin: 1.5em auto 0 auto;
+  }
+  
+  .countdown {
+    bottom: 8vw;
+    min-width: 80vw;
+    padding: 0.8em 1.2em;
+    font-size: 0.85rem;
+    border-radius: 1.5em;
+  }
+  
+  .tree-container svg.move-and-scale {
+    transform: translateY(40px) scale(1.12); /* Menos movimiento en móvil */
+  }
+}
+
+/* Tablets */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .tree-container {
+    max-width: 85vw;
+    aspect-ratio: 1.4 / 1;
+  }
+  
+  .dedication-text {
+    top: 4vw;
+    font-size: 1rem;
+    max-width: 85vw;
+  }
+  
+  .countdown {
+    bottom: 6vw;
+    min-width: 50vw;
+    font-size: 0.95rem;
+  }
+}
+
+/* Pantallas medianas */
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .tree-container {
+    max-width: 900px;
+    max-height: 700px;
+  }
+  
+  .dedication-text {
+    font-size: 1.1rem;
+    top: 60px;
+  }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1401px) {
+  .tree-container {
+    max-width: 1200px;
+    max-height: 900px;
+  }
+  
+  .dedication-text {
+    font-size: 1.2rem;
+    top: 80px;
+    max-width: 1000px;
+  }
+  
+  .countdown {
+    bottom: 3vw;
+    font-size: 1.1rem;
+    padding: 0.8em 2em;
+  }
+}
+
+/* Orientación horizontal en móviles */
+@media (max-width: 900px) and (orientation: landscape) {
+  .tree-container {
+    max-height: 70vh;
+    aspect-ratio: 1.6 / 1;
+  }
+  
+  .dedication-text {
+    top: 2vh;
+    font-size: 0.85rem;
+  }
+  
+  .countdown {
+    bottom: 2vh;
+  }
+}
+
+/* Soporte para prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .tree-container svg.move-and-scale,
+  .signature,
+  .countdown {
+    transition: none;
+  }
+}
+
+/* Utilidades de accesibilidad */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Soporte para navegadores antiguos */
+@supports not (aspect-ratio: 1/1) {
+  .tree-container {
+    height: 62vw !important;
+  }
+}
